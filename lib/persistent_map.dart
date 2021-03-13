@@ -12,7 +12,6 @@ class _Leaf<T> implements _Node<T> {
 }
 
 class _Trie<T> implements _Node<T> {
-  /// Unmodifiable list.
   final List<_Node<T>?> children;
   static const childrenCount = 1 << _maskSize;
 
@@ -20,12 +19,12 @@ class _Trie<T> implements _Node<T> {
     assert(idx < childrenCount);
     var tempChildren = List<_Node<T>?>.filled(childrenCount, null);
     tempChildren[idx] = value;
-    return List.unmodifiable(tempChildren);
+    return tempChildren;
   }
 
   _Trie.one(int idx, _Node<T>? value) : children = makeOneChildren(idx, value);
 
-  _Trie(List<_Node<T>?> children) : children = List.unmodifiable(children) {
+  _Trie(List<_Node<T>?> children) : children = children {
     assert(this.children.length == childrenCount);
   }
 
