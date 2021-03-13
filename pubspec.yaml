@@ -1,0 +1,9 @@
+name: persistent
+version: 0.0.1
+description: Persistent data structures for Dart
+homepage: https://github.com/gaaclarke/persistent
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+dev_dependencies:
+  test: ^1.16.8
+  pedantic: ^1.11.0
