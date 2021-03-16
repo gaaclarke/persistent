@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:persistent/persistent.dart';
 
 void main() {
@@ -20,6 +22,16 @@ void main() {
     }
     var duration = DateTime.now().difference(start);
     print('add test List: ${duration.inMicroseconds / count} us');
+  }
+
+  {
+    var list = HashMap();
+    var start = DateTime.now();
+    for (var i = 0; i < count; ++i) {
+      list.putIfAbsent(i, () => i);
+    }
+    var duration = DateTime.now().difference(start);
+    print('add test Hash: ${duration.inMicroseconds / count} us');
   }
 
   {
@@ -47,6 +59,18 @@ void main() {
   }
 
   {
+    var list = HashMap<int, int>();
+    list.putIfAbsent(0, () => 0);
+    var tally = 0;
+    var start = DateTime.now();
+    for (var i = 0; i < count; ++i) {
+      tally += list[0]!;
+    }
+    var duration = DateTime.now().difference(start);
+    print('get test Hash: ${duration.inMicroseconds / count} us ($tally)');
+  }
+
+  {
     var list = PersistentList<int>.from(Iterable.generate(count));
     var tally = 0;
     var start = DateTime.now();
@@ -66,5 +90,19 @@ void main() {
     }
     var duration = DateTime.now().difference(start);
     print('iterate test List: ${duration.inMicroseconds / count} us ($tally)');
+  }
+
+  {
+    var list = HashMap<int, int>();
+    for(var i = 0; i < count; ++i) {
+      list.putIfAbsent(i, () => i);
+    }
+    var tally = 0;
+    var start = DateTime.now();
+    for (var x in list.values) {
+      tally += x;
+    }
+    var duration = DateTime.now().difference(start);
+    print('iterate test Hash: ${duration.inMicroseconds / count} us ($tally)');
   }
 }
